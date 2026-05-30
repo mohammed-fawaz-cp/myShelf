@@ -187,8 +187,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> with SingleTickerProv
                         Container(
                           padding: const EdgeInsets.all(24.0),
                           decoration: BoxDecoration(
-                            color: isDark 
-                                ? theme.colorScheme.surface.withOpacity(0.3) 
+                            color: isDark
+                                ? theme.colorScheme.surface.withOpacity(0.3)
                                 : Colors.white.withOpacity(0.5),
                             borderRadius: BorderRadius.circular(16.0),
                             border: Border.all(

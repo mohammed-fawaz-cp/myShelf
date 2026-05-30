@@ -36,7 +36,7 @@ final filteredProductsProvider = Provider<AsyncValue<List<Product>>>((ref) {
       return products;
     }
     // API returns lowercase categories, so we compare case-insensitively
-    return products.where((product) => 
+    return products.where((product) =>
       product.category.trim().toLowerCase() == selectedCategory.trim().toLowerCase()
     ).toList();
   });

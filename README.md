@@ -1,8 +1,8 @@
-# myshelf
+# myShelf
 
-A new Flutter project.
+**myShelf** is a premium, curated e-commerce experience built with Flutter. It focuses on timeless elegance, providing users with a high-end interface to browse, collect, and shop for masterpieces.
 
-## Getting Started
+---
 
 This project is a starting point for a Flutter application.
 
