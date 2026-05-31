@@ -26,18 +26,31 @@ final categoriesFutureProvider = FutureProvider<List<String>>((ref) async {
 // Provider for the currently active category filter
 final selectedCategoryProvider = StateProvider<String>((ref) => 'All');
 
-// Provider that dynamically filters the product list based on the active category
+// Provider for the search query
+final searchQueryProvider = StateProvider<String>((ref) => '');
+
+// Provider that dynamically filters the product list based on the active category and search query
 final filteredProductsProvider = Provider<AsyncValue<List<Product>>>((ref) {
   final productsAsync = ref.watch(productsFutureProvider);
   final selectedCategory = ref.watch(selectedCategoryProvider);
+  final searchQuery = ref.watch(searchQueryProvider).toLowerCase();
 
   return productsAsync.whenData((products) {
-    if (selectedCategory == 'All') {
-      return products;
+    var filtered = products;
+    
+    if (selectedCategory != 'All') {
+      filtered = filtered.where((product) => 
+        product.category.trim().toLowerCase() == selectedCategory.trim().toLowerCase()
+      ).toList();
     }
-    // API returns lowercase categories, so we compare case-insensitively
-    return products.where((product) =>
-      product.category.trim().toLowerCase() == selectedCategory.trim().toLowerCase()
-    ).toList();
+
+    if (searchQuery.isNotEmpty) {
+      filtered = filtered.where((product) => 
+        product.title.toLowerCase().contains(searchQuery) || 
+        product.description.toLowerCase().contains(searchQuery)
+      ).toList();
+    }
+
+    return filtered;
   });
 });

@@ -78,15 +78,15 @@ class FavoritesScreen extends ConsumerWidget {
                           padding: const EdgeInsets.all(12.0),
                           decoration: BoxDecoration(
                             color: isDark
-                                ? theme.colorScheme.surfaceVariant.withOpacity(0.15)
-                                : Colors.white.withOpacity(0.7),
+                                ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.15)
+                                : Colors.white.withValues(alpha: 0.7),
                             borderRadius: BorderRadius.circular(16.0),
                             border: Border.all(
-                              color: theme.colorScheme.outlineVariant.withOpacity(0.2),
+                              color: theme.colorScheme.outlineVariant.withValues(alpha: 0.2),
                             ),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(isDark ? 0.2 : 0.03),
+                                color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
                                 blurRadius: 10.0,
                                 offset: const Offset(0, 4),
                               ),
@@ -100,8 +100,8 @@ class FavoritesScreen extends ConsumerWidget {
                                 height: 88.0,
                                 decoration: BoxDecoration(
                                   color: isDark
-                                      ? theme.colorScheme.surface.withOpacity(0.5)
-                                      : theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                                      ? theme.colorScheme.surface.withValues(alpha: 0.5)
+                                      : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                                   borderRadius: BorderRadius.circular(12.0),
                                 ),
                                 child: Padding(
@@ -204,11 +204,11 @@ class FavoritesScreen extends ConsumerWidget {
               height: 140.0,
               decoration: BoxDecoration(
                 color: isDark
-                    ? theme.colorScheme.surfaceVariant.withOpacity(0.1)
-                    : theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                    ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.1)
+                    : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: theme.colorScheme.secondary.withOpacity(0.3),
+                  color: theme.colorScheme.secondary.withValues(alpha: 0.3),
                   width: 1.0,
                 ),
               ),

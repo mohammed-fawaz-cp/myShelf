@@ -6,6 +6,9 @@ import 'package:myshelf/core/theme/theme_provider.dart';
 import 'package:myshelf/features/auth/presentation/controllers/auth_controller.dart';
 import 'package:myshelf/features/favorites/presentation/screens/favorites_screen.dart';
 import 'package:myshelf/features/favorites/presentation/controllers/favorites_controller.dart';
+import 'package:myshelf/features/cart/presentation/screens/cart_screen.dart';
+import 'package:myshelf/features/cart/presentation/controllers/cart_controller.dart';
+import 'shop_view.dart';
 import 'dashboard_view.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -23,21 +26,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final favCount = ref.watch(favoritesControllerProvider).length;
+    final cartCount = ref.watch(cartControllerProvider).length;
 
     // Tab content views
     final List<Widget> children = [
       const DashboardView(),
-      _buildDummyScreen(
-        title: 'Boutique Gallery',
-        subtitle: 'Curating the next generation of style. Coming soon.',
-        icon: Icons.storefront,
-        context: context,
-      ),
-      _buildDummyScreen(
-        title: 'Your Bag',
-        subtitle: 'Your shopping cart is currently empty.',
-        icon: Icons.shopping_bag_outlined,
-        context: context,
+      const ShopView(),
+      CartScreen(
+        onExplore: () {
+          setState(() {
+            _currentIndex = 0;
+          });
+        },
       ),
       FavoritesScreen(
         onExploreArrivals: () {
@@ -52,7 +52,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     return Scaffold(
       drawer: _buildDrawer(context),
       appBar: AppBar(
-        backgroundColor: theme.colorScheme.surface.withOpacity(0.8),
+        backgroundColor: theme.colorScheme.surface.withValues(alpha: 0.8),
         elevation: 0,
         scrolledUnderElevation: 0,
         flexibleSpace: ClipRect(
@@ -77,20 +77,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             onPressed: () => Scaffold.of(context).openDrawer(),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_bag_outlined, color: theme.colorScheme.primary),
-            onPressed: () {
-              setState(() {
-                _currentIndex = 2; // Jump to Cart tab
-              });
-            },
-          ),
-        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1.0),
           child: Container(
-            color: theme.colorScheme.outlineVariant.withOpacity(0.3),
+            color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
             height: 1.0,
           ),
         ),
@@ -112,15 +102,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 height: 72.0,
                 decoration: BoxDecoration(
                   color: isDark 
-                      ? theme.colorScheme.surface.withOpacity(0.7) 
-                      : Colors.white.withOpacity(0.7),
+                      ? theme.colorScheme.surface.withValues(alpha: 0.7) 
+                      : Colors.white.withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(24.0),
                   border: Border.all(
-                    color: theme.colorScheme.outlineVariant.withOpacity(0.2),
+                    color: theme.colorScheme.outlineVariant.withValues(alpha: 0.2),
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
+                      color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.05),
                       blurRadius: 20.0,
                       offset: const Offset(0, -4),
                     ),
@@ -137,7 +127,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         children: [
                           _buildNavItem(0, Icons.home_outlined, Icons.home, 'Home', theme),
                           _buildNavItem(1, Icons.storefront, Icons.storefront, 'Shop', theme),
-                          _buildNavItem(2, Icons.shopping_bag_outlined, Icons.shopping_bag, 'Cart', theme),
+                          _buildNavItem(2, Icons.shopping_bag_outlined, Icons.shopping_bag, 'Cart', theme, badgeCount: cartCount),
                           _buildNavItem(3, Icons.favorite_border, Icons.favorite, 'Saved', theme, badgeCount: favCount),
                           _buildNavItem(4, Icons.person_outline, Icons.person, 'Profile', theme),
                         ],
@@ -158,7 +148,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final isDark = theme.brightness == Brightness.dark;
 
     final activeColor = isDark ? theme.colorScheme.primary : theme.colorScheme.secondary;
-    final inactiveColor = theme.colorScheme.onSurfaceVariant.withOpacity(0.7);
+    final inactiveColor = theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7);
 
     return GestureDetector(
       onTap: () {
@@ -172,7 +162,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         decoration: isSelected
             ? BoxDecoration(
-                color: theme.colorScheme.secondary.withOpacity(0.1),
+                color: theme.colorScheme.secondary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(20.0),
               )
             : null,
@@ -250,11 +240,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               height: 100.0,
               decoration: BoxDecoration(
                 color: isDark
-                    ? theme.colorScheme.surfaceVariant.withOpacity(0.1)
-                    : theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                    ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.1)
+                    : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: theme.colorScheme.outlineVariant.withOpacity(0.3),
+                  color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
                 ),
               ),
               child: Icon(
@@ -307,7 +297,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   color: theme.colorScheme.secondary,
                   width: 2.0,
                 ),
-                color: theme.colorScheme.secondary.withOpacity(0.1),
+                color: theme.colorScheme.secondary.withValues(alpha: 0.1),
               ),
               child: Icon(
                 Icons.person,
@@ -339,7 +329,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               padding: const EdgeInsets.all(20.0),
               decoration: BoxDecoration(
                 color: isDark
-                    ? theme.colorScheme.surfaceVariant.withOpacity(0.15)
+                    ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.15)
                     : Colors.white,
                 borderRadius: BorderRadius.circular(16.0),
                 border: Border.all(
@@ -477,7 +467,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               trailing: Switch(
                 value: isDark,
-                activeColor: theme.colorScheme.primary,
+                activeThumbColor: theme.colorScheme.primary,
                 onChanged: (_) {
                   ref.read(themeProvider.notifier).toggleTheme();
                 },

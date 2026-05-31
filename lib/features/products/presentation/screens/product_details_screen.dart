@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myshelf/features/products/domain/entities/product.dart';
 import 'package:myshelf/features/favorites/presentation/controllers/favorites_controller.dart';
 
+import 'package:myshelf/features/cart/presentation/controllers/cart_controller.dart';
+
 class ProductDetailsScreen extends ConsumerStatefulWidget {
   final Product product;
 
@@ -39,6 +41,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   }
 
   void _triggerAddToCart() {
+    ref.read(cartControllerProvider.notifier).addToCart(widget.product);
+
     setState(() {
       _isAdded = true;
     });
@@ -202,19 +206,19 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: isDark 
-                        ? theme.colorScheme.surface.withOpacity(0.85) 
-                        : Colors.white.withOpacity(0.85),
+                        ? theme.colorScheme.surface.withValues(alpha: 0.85) 
+                        : Colors.white.withValues(alpha: 0.85),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(40.0),
                       topRight: Radius.circular(40.0),
                     ),
                     border: Border.all(
-                      color: theme.colorScheme.secondary.withOpacity(0.15),
+                      color: theme.colorScheme.secondary.withValues(alpha: 0.15),
                       width: 0.5,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(isDark ? 0.4 : 0.08),
+                        color: Colors.black.withValues(alpha: isDark ? 0.4 : 0.08),
                         blurRadius: 30.0,
                         offset: const Offset(0, -10),
                       ),
@@ -239,7 +243,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                 height: 4.0,
                                 margin: const EdgeInsets.only(bottom: 24.0),
                                 decoration: BoxDecoration(
-                                  color: theme.colorScheme.outlineVariant.withOpacity(0.3),
+                                  color: theme.colorScheme.outlineVariant.withValues(alpha: 0.3),
                                   borderRadius: BorderRadius.circular(2.0),
                                 ),
                               ),
@@ -375,11 +379,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                   padding: const EdgeInsets.all(16.0),
                                   decoration: BoxDecoration(
                                     color: isDark
-                                        ? theme.colorScheme.surfaceVariant.withOpacity(0.1)
-                                        : theme.colorScheme.surfaceVariant.withOpacity(0.3),
+                                        ? theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.1)
+                                        : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
                                     borderRadius: BorderRadius.circular(16.0),
                                     border: Border.all(
-                                      color: theme.colorScheme.outlineVariant.withOpacity(0.2),
+                                      color: theme.colorScheme.outlineVariant.withValues(alpha: 0.2),
                                     ),
                                   ),
                                   child: Column(
@@ -495,9 +499,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6.0),
       decoration: BoxDecoration(
-        color: theme.colorScheme.secondary.withOpacity(0.08),
+        color: theme.colorScheme.secondary.withValues(alpha: 0.08),
         border: Border.all(
-          color: theme.colorScheme.secondary.withOpacity(0.2),
+          color: theme.colorScheme.secondary.withValues(alpha: 0.2),
           width: 0.5,
         ),
         borderRadius: BorderRadius.circular(20.0),
